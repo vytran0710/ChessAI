@@ -65,7 +65,7 @@ namespace FormClient
                 return;
             }
 
-            ChessPiece chessPiece = (ChessPiece) button.Tag;
+            ChessPiece chessPiece = (ChessPiece)button.Tag;
             Console.WriteLine("({2}, {3}) - {0} from team {1}", chessPiece.GetType(), chessPiece.Player, a.Column - 1, a.Row - 1);
 
             if (selectedPlayer > -1 && selectedPlayer != chessPiece.Player)
@@ -75,7 +75,7 @@ namespace FormClient
                 AI();
                 DrawPieces(chessBoard);
             }
-            else
+            else if (chessPiece.Player == 1)
             {
                 selectedPlayer = chessPiece.Player;
                 selectedPiece.x = a.Column - 1;
