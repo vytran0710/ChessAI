@@ -55,7 +55,10 @@ namespace FormClient
             {
                 if (selectedPlayer > -1)
                 {
-                    chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1);
+                    if (chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1))
+                    {
+                        AI();
+                    }
                     selectedPlayer = -1;
                     DrawPieces(chessBoard);
                 }
@@ -69,6 +72,7 @@ namespace FormClient
             {
                 chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1);
                 selectedPlayer = -1;
+                AI();
                 DrawPieces(chessBoard);
             }
             else
@@ -84,6 +88,12 @@ namespace FormClient
                 }
                 Console.WriteLine();
             }
+        }
+
+        //AI player
+        private void AI()
+        {
+
         }
 
         private void DrawPieces(ChessBoard board)

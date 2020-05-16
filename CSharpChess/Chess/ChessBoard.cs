@@ -52,6 +52,12 @@ namespace Chess
             return this;
         }
 
+        //get actions for the AI player
+        public IEnumerable<Point> getActions(int x, int y)
+        {
+            return PieceActions(x, y, false, true, true, boardArray);
+        }
+
         /// <summary>
         /// Calculate the actual actions available for a Chess Piece at a set of coordinates.
         /// </summary>
