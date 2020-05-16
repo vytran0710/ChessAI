@@ -93,7 +93,36 @@ namespace FormClient
         //AI player
         private void AI()
         {
-            MessageBox.Show(evaluateBoard(chessBoard).ToString()) ;
+            moveRandomly(chessBoard);
+        }
+
+        private List<move> legalMoves(ChessBoard board)
+        {
+            List<move> legalMoves = new List<move>();
+            for (int x = 0; x < boardLayoutPanel.ColumnCount-1; x++)
+            {
+                for (int y = 0; y < boardLayoutPanel.RowCount-1; y++)
+                {
+                    if(board[x, y] != null && board[x, y].Player == 0)
+                    {
+                        if(chessBoard.getActions(x, y) != null)
+                        {
+                            foreach (Chess.Point point in chessBoard.getActions(x, y))
+                            {
+                                legalMoves.Add(new move(new Chess.Point(x, y), point));
+                            }
+                        }
+                    }
+                }
+            }
+            return legalMoves;
+        }
+
+        private void moveRandomly(ChessBoard board)
+        {
+            Random r = new Random();
+            int i = r.Next(0, legalMoves(board).Count() - 1);
+            chessBoard.ActionPiece(legalMoves(board)[i].from, legalMoves(board)[i].to);
         }
 
         private void DrawPieces(ChessBoard board)
@@ -186,6 +215,24 @@ namespace FormClient
                 }
             }
             return totalEvaluation;
+        }
+
+        //nodes
+        struct node
+        {
+            public ChessBoard board;
+            public ChessBoard prevBoard;
+        }
+        //for a list of moves
+        struct move
+        {
+            public Chess.Point from;
+            public Chess.Point to;
+            public move(Chess.Point from, Chess.Point to)
+            {
+                this.from = from;
+                this.to = to;
+            }
         }
     }
 }
