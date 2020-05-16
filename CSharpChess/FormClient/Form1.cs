@@ -222,6 +222,11 @@ namespace FormClient
         {
             public ChessBoard board;
             public ChessBoard prevBoard;
+            public node (ChessBoard board, ChessBoard prevBoard)
+            {
+                this.board = board;
+                this.prevBoard = prevBoard;
+            }
         }
         //for a list of moves
         struct move

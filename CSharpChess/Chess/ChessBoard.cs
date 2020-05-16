@@ -156,30 +156,37 @@ namespace Chess
                 int flipDirection = 1;
 
                 if (pawn.Player == 1) flipDirection = -1;
-                if (pawn.CanEnPassantLeft)
+                try
                 {
-                    Point attackPoint;
-                    attackPoint = ChessPiece.GetDiagnalMovementArray(1, DiagnalDirection.FORWARD_LEFT)[0];
-                    attackPoint.y *= flipDirection;
-                    attackPoint.y += y;
-                    attackPoint.x += x;
-                    if (ValidatePoint(attackPoint))
+                    if (pawn.CanEnPassantLeft && boardArray[x - 1, y] != null)
                     {
-                        AddMove(availableActions, new Point(x,y), attackPoint, ignoreCheck);
+                        Point attackPoint;
+                        attackPoint = ChessPiece.GetDiagnalMovementArray(1, DiagnalDirection.FORWARD_LEFT)[0];
+                        attackPoint.y *= flipDirection;
+                        attackPoint.y += y;
+                        attackPoint.x += x;
+                        if (ValidatePoint(attackPoint))
+                        {
+                            AddMove(availableActions, new Point(x, y), attackPoint, ignoreCheck);
+                        }
+                    }
+
+                    if (pawn.CanEnPassantRight && boardArray[x + 1, y] != null)
+                    {
+                        Point attackPoint;
+                        attackPoint = ChessPiece.GetDiagnalMovementArray(1, DiagnalDirection.FORWARD_RIGHT)[0];
+                        attackPoint.y *= flipDirection;
+                        attackPoint.y += y;
+                        attackPoint.x += x;
+                        if (ValidatePoint(attackPoint))
+                        {
+                            AddMove(availableActions, new Point(x, y), attackPoint, ignoreCheck);
+                        }
                     }
                 }
-
-                if (pawn.CanEnPassantRight)
+                catch
                 {
-                    Point attackPoint;
-                    attackPoint = ChessPiece.GetDiagnalMovementArray(1, DiagnalDirection.FORWARD_RIGHT)[0];
-                    attackPoint.y *= flipDirection;
-                    attackPoint.y += y;
-                    attackPoint.x += x;
-                    if (ValidatePoint(attackPoint))
-                    {
-                        AddMove(availableActions, new Point(x, y), attackPoint, ignoreCheck);
-                    }
+
                 }
             }
 
