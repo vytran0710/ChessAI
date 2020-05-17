@@ -58,12 +58,6 @@ namespace Chess
             return this;
         }
 
-        //get actions for the AI player
-        public IEnumerable<Point> getActions(int x, int y)
-        {
-            return PieceActions(x, y, false, true, true, boardArray);
-        }
-
         /// <summary>
         /// Calculate the actual actions available for a Chess Piece at a set of coordinates.
         /// </summary>
@@ -207,7 +201,7 @@ namespace Chess
                 ChessPiece movingPiece = boardArray[fromPoint.x, fromPoint.y];
                 ChessPiece[,] boardArrayBackup = (ChessPiece[,])boardArray.Clone();
                 ActionPiece(fromPoint, toPoint, true);
-                kingInCheck = KingInCheck(movingPiece.Player);
+                //kingInCheck = KingInCheck(movingPiece.Player);
                 boardArray = boardArrayBackup;
             }
 

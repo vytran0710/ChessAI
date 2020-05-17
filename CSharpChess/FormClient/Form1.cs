@@ -59,7 +59,7 @@ namespace FormClient
                 {
                     if (chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1))
                     {
-                        AI();
+                        AI(3);
                     }
                     selectedPlayer = -1;
                     DrawPieces(chessBoard);
@@ -75,7 +75,7 @@ namespace FormClient
                 if(chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1))
                 {
                     selectedPlayer = -1;
-                    AI();
+                    AI(3);
                     DrawPieces(chessBoard);
                 }
             }
@@ -121,10 +121,10 @@ namespace FormClient
         }
 
         //AI player
-        private void AI()
+        private void AI(int depth)
         {
-            move temp = bestMove(chessBoard, 1);
-            chessBoard.ActionPiece(temp.from, temp.to, true);
+            move temp = bestMove(chessBoard, depth);
+            chessBoard.ActionPiece(temp.from, temp.to);
         }
 
         private List<move> legalMoves(ChessBoard board, int playerTurn)
@@ -136,9 +136,16 @@ namespace FormClient
                 {
                     if(board[x, y] != null && board[x, y].Player == playerTurn)
                     {
-                        if(board.getActions(x, y) != null)
+                        if(playerTurn == 0)
                         {
-                            foreach (Chess.Point point in board.getActions(x, y))
+                            foreach (Chess.Point point in board.PieceActions(x, y))
+                            {
+                                legalMoves.Add(new move(new Chess.Point(x, y), point));
+                            }
+                        }
+                        else
+                        {
+                            foreach (Chess.Point point in board.PieceActions(x, y))
                             {
                                 legalMoves.Add(new move(new Chess.Point(x, y), point));
                             }
@@ -230,28 +237,28 @@ namespace FormClient
         //min player: human player
         int min(ChessBoard board, int depth)
         {
+            if(depth==0)
+            {
+                return 0;
+            }    
             int worst = 9999;
             int moveValue = 0;
-            Stack<ChessBoard> sB = new Stack<ChessBoard>();
             foreach(move m in legalMoves(board, 1))
             {
                 ChessBoard tempBoard = new ChessBoard(board);
                 tempBoard.ActionPiece(m.from, m.to, true);
-                sB.Push(tempBoard);
                 if (depth != 0)
                 {
                     moveValue = evaluateBoard(tempBoard) + max(tempBoard, depth - 1);
                 }
                 else
                 {
-                    sB.Pop();
                     return 0;
                 }
                 if(moveValue < worst)
                 {
                     worst = moveValue;
                 }
-                sB.Pop();
             }
             return worst;
         }
@@ -259,28 +266,28 @@ namespace FormClient
         //max player: computer
         int max(ChessBoard board, int depth)
         {
+            if (depth == 0)
+            {
+                return 0;
+            }
             int best = -9999;
             int moveValue = 0;
-            Stack<ChessBoard> sB = new Stack<ChessBoard>();
             foreach (move m in legalMoves(board, 0))
             {
                 ChessBoard tempBoard = new ChessBoard(board);
                 tempBoard.ActionPiece(m.from, m.to, true);
-                sB.Push(tempBoard);
                 if (depth != 0)
                 {
-                    moveValue = evaluateBoard(tempBoard) + max(tempBoard, depth - 1);
+                    moveValue = evaluateBoard(tempBoard) + min(tempBoard, depth - 1);
                 }
                 else
                 {
-                    sB.Pop();
                     return 0;
                 }
                 if (moveValue > best)
                 {
                     best = moveValue;
                 }
-                sB.Pop();
             }
             return best;
         }
@@ -291,13 +298,11 @@ namespace FormClient
             List<move> bestMoves = new List<move>();
             int max = -9999;
             int moveValue = 0;
-            Stack<ChessBoard> sB = new Stack<ChessBoard>();
             foreach(move m in legalMoves(board, 0))
             {
                 ChessBoard tempBoard = new ChessBoard(board);
                 tempBoard.ActionPiece(m.from, m.to, true);
-                sB.Push(tempBoard);
-                moveValue = min(tempBoard, 2) + evaluateBoard(tempBoard);
+                moveValue = min(tempBoard, depth) + evaluateBoard(tempBoard);
                 if(moveValue == max)
                 {
                     bestMoves.Add(m);
@@ -308,7 +313,6 @@ namespace FormClient
                     bestMoves.Add(m);
                     max = moveValue;
                 }
-                sB.Pop();
             }
             Random r = new Random();
             return bestMoves[(int)r.Next(0, bestMoves.Count()-1)];
