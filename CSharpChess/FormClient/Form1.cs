@@ -165,32 +165,6 @@ namespace FormClient
                         switch (board[x, y].ToString())
                         {
                             case "Chess.Pawn":
-                                totalEvaluation += 10;
-                                break;
-                            case "Chess.Knight":
-                                totalEvaluation += 30;
-                                break;
-                            case "Chess.Bishop":
-                                totalEvaluation += 30;
-                                break;
-                            case "Chess.Rook":
-                                totalEvaluation += 50;
-                                break;
-                            case "Chess.Queen":
-                                totalEvaluation += 90;
-                                break;
-                            case "Chess.King":
-                                totalEvaluation += 900;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        switch (board[x, y].ToString())
-                        {
-                            case "Chess.Pawn":
                                 totalEvaluation -= 10;
                                 break;
                             case "Chess.Knight":
@@ -207,6 +181,32 @@ namespace FormClient
                                 break;
                             case "Chess.King":
                                 totalEvaluation -= 900;
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        switch (board[x, y].ToString())
+                        {
+                            case "Chess.Pawn":
+                                totalEvaluation += 10;
+                                break;
+                            case "Chess.Knight":
+                                totalEvaluation += 30;
+                                break;
+                            case "Chess.Bishop":
+                                totalEvaluation += 30;
+                                break;
+                            case "Chess.Rook":
+                                totalEvaluation += 50;
+                                break;
+                            case "Chess.Queen":
+                                totalEvaluation += 90;
+                                break;
+                            case "Chess.King":
+                                totalEvaluation += 900;
                                 break;
                             default:
                                 break;
