@@ -72,10 +72,12 @@ namespace FormClient
 
             if (selectedPlayer > -1 && selectedPlayer != chessPiece.Player)
             {
-                chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1);
-                selectedPlayer = -1;
-                AI();
-                DrawPieces(chessBoard);
+                if(chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1))
+                {
+                    selectedPlayer = -1;
+                    AI();
+                    DrawPieces(chessBoard);
+                }
             }
             else if (chessPiece.Player == 1)
             {
@@ -90,35 +92,6 @@ namespace FormClient
                 }
                 Console.WriteLine();
             }
-        }
-
-        //AI player
-        private void AI()
-        {
-            move temp = bestMove(chessBoard, 2);
-            chessBoard.ActionPiece(temp.from, temp.to);
-        }
-
-        private List<move> legalMoves(ChessBoard board, int playerTurn)
-        {
-            List<move> legalMoves = new List<move>();
-            for (int x = 0; x < boardLayoutPanel.ColumnCount-1; x++)
-            {
-                for (int y = 0; y < boardLayoutPanel.RowCount-1; y++)
-                {
-                    if(board[x, y] != null && board[x, y].Player == playerTurn)
-                    {
-                        if(board.getActions(x, y) != null)
-                        {
-                            foreach (Chess.Point point in board.getActions(x, y))
-                            {
-                                legalMoves.Add(new move(new Chess.Point(x, y), point));
-                            }
-                        }
-                    }
-                }
-            }
-            return legalMoves;
         }
 
         private void DrawPieces(ChessBoard board)
@@ -145,6 +118,35 @@ namespace FormClient
                     this.coordinates.SetToolTip(button, String.Format("({0}, {1})", x, y));
                 }
             }
+        }
+
+        //AI player
+        private void AI()
+        {
+            move temp = bestMove(chessBoard, 1);
+            chessBoard.ActionPiece(temp.from, temp.to, true);
+        }
+
+        private List<move> legalMoves(ChessBoard board, int playerTurn)
+        {
+            List<move> legalMoves = new List<move>();
+            for (int x = 0; x < boardLayoutPanel.ColumnCount-1; x++)
+            {
+                for (int y = 0; y < boardLayoutPanel.RowCount-1; y++)
+                {
+                    if(board[x, y] != null && board[x, y].Player == playerTurn)
+                    {
+                        if(board.getActions(x, y) != null)
+                        {
+                            foreach (Chess.Point point in board.getActions(x, y))
+                            {
+                                legalMoves.Add(new move(new Chess.Point(x, y), point));
+                            }
+                        }
+                    }
+                }
+            }
+            return legalMoves;
         }
 
         private int evaluateBoard(ChessBoard board)
@@ -233,8 +235,8 @@ namespace FormClient
             Stack<ChessBoard> sB = new Stack<ChessBoard>();
             foreach(move m in legalMoves(board, 1))
             {
-                ChessBoard tempBoard = board.ShallowCopy();
-                tempBoard.ActionPiece(m.from, m.to);
+                ChessBoard tempBoard = new ChessBoard(board);
+                tempBoard.ActionPiece(m.from, m.to, true);
                 sB.Push(tempBoard);
                 if (depth != 0)
                 {
@@ -254,7 +256,7 @@ namespace FormClient
             return worst;
         }
 
-        // max player: computer
+        //max player: computer
         int max(ChessBoard board, int depth)
         {
             int best = -9999;
@@ -262,8 +264,8 @@ namespace FormClient
             Stack<ChessBoard> sB = new Stack<ChessBoard>();
             foreach (move m in legalMoves(board, 0))
             {
-                ChessBoard tempBoard = board.ShallowCopy();
-                tempBoard.ActionPiece(m.from, m.to);
+                ChessBoard tempBoard = new ChessBoard(board);
+                tempBoard.ActionPiece(m.from, m.to, true);
                 sB.Push(tempBoard);
                 if (depth != 0)
                 {
@@ -283,7 +285,7 @@ namespace FormClient
             return best;
         }
 
-        // best move for computer
+        //best move for computer
         move bestMove(ChessBoard board, int depth)
         {
             List<move> bestMoves = new List<move>();
@@ -292,15 +294,15 @@ namespace FormClient
             Stack<ChessBoard> sB = new Stack<ChessBoard>();
             foreach(move m in legalMoves(board, 0))
             {
-                ChessBoard tempBoard = board.ShallowCopy();
-                tempBoard.ActionPiece(m.from, m.to);
+                ChessBoard tempBoard = new ChessBoard(board);
+                tempBoard.ActionPiece(m.from, m.to, true);
                 sB.Push(tempBoard);
                 moveValue = min(tempBoard, 2) + evaluateBoard(tempBoard);
                 if(moveValue == max)
                 {
                     bestMoves.Add(m);
                 }
-                else if(moveValue>max)
+                else if(moveValue > max)
                 {
                     bestMoves.Clear();
                     bestMoves.Add(m);
