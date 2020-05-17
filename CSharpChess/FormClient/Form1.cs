@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Collections;
+using System.Diagnostics;
 
 namespace FormClient
 {
@@ -93,21 +95,22 @@ namespace FormClient
         //AI player
         private void AI()
         {
-            moveRandomly(chessBoard);
+            move temp = bestMove(chessBoard, 2);
+            chessBoard.ActionPiece(temp.from, temp.to);
         }
 
-        private List<move> legalMoves(ChessBoard board)
+        private List<move> legalMoves(ChessBoard board, int playerTurn)
         {
             List<move> legalMoves = new List<move>();
             for (int x = 0; x < boardLayoutPanel.ColumnCount-1; x++)
             {
                 for (int y = 0; y < boardLayoutPanel.RowCount-1; y++)
                 {
-                    if(board[x, y] != null && board[x, y].Player == 0)
+                    if(board[x, y] != null && board[x, y].Player == playerTurn)
                     {
-                        if(chessBoard.getActions(x, y) != null)
+                        if(board.getActions(x, y) != null)
                         {
-                            foreach (Chess.Point point in chessBoard.getActions(x, y))
+                            foreach (Chess.Point point in board.getActions(x, y))
                             {
                                 legalMoves.Add(new move(new Chess.Point(x, y), point));
                             }
@@ -116,13 +119,6 @@ namespace FormClient
                 }
             }
             return legalMoves;
-        }
-
-        private void moveRandomly(ChessBoard board)
-        {
-            Random r = new Random();
-            int i = r.Next(0, legalMoves(board).Count() - 1);
-            chessBoard.ActionPiece(legalMoves(board)[i].from, legalMoves(board)[i].to);
         }
 
         private void DrawPieces(ChessBoard board)
@@ -165,22 +161,22 @@ namespace FormClient
                         switch (board[x, y].ToString())
                         {
                             case "Chess.Pawn":
-                                totalEvaluation -= 10;
+                                totalEvaluation -= 1;
                                 break;
                             case "Chess.Knight":
-                                totalEvaluation -= 30;
+                                totalEvaluation -= 3;
                                 break;
                             case "Chess.Bishop":
-                                totalEvaluation -= 30;
+                                totalEvaluation -= 3;
                                 break;
                             case "Chess.Rook":
-                                totalEvaluation -= 50;
+                                totalEvaluation -= 5;
                                 break;
                             case "Chess.Queen":
-                                totalEvaluation -= 90;
+                                totalEvaluation -= 9;
                                 break;
                             case "Chess.King":
-                                totalEvaluation -= 900;
+                                totalEvaluation -= 90;
                                 break;
                             default:
                                 break;
@@ -191,22 +187,22 @@ namespace FormClient
                         switch (board[x, y].ToString())
                         {
                             case "Chess.Pawn":
-                                totalEvaluation += 10;
+                                totalEvaluation += 1;
                                 break;
                             case "Chess.Knight":
-                                totalEvaluation += 30;
+                                totalEvaluation += 3;
                                 break;
                             case "Chess.Bishop":
-                                totalEvaluation += 30;
+                                totalEvaluation += 3;
                                 break;
                             case "Chess.Rook":
-                                totalEvaluation += 50;
+                                totalEvaluation += 5;
                                 break;
                             case "Chess.Queen":
-                                totalEvaluation += 90;
+                                totalEvaluation += 9;
                                 break;
                             case "Chess.King":
-                                totalEvaluation += 900;
+                                totalEvaluation += 90;
                                 break;
                             default:
                                 break;
@@ -217,17 +213,6 @@ namespace FormClient
             return totalEvaluation;
         }
 
-        //nodes
-        struct node
-        {
-            public ChessBoard board;
-            public ChessBoard prevBoard;
-            public node (ChessBoard board, ChessBoard prevBoard)
-            {
-                this.board = board;
-                this.prevBoard = prevBoard;
-            }
-        }
         //for a list of moves
         struct move
         {
@@ -238,6 +223,93 @@ namespace FormClient
                 this.from = from;
                 this.to = to;
             }
+        }
+
+        //min player: human player
+        int min(ChessBoard board, int depth)
+        {
+            int worst = 9999;
+            int moveValue = 0;
+            Stack<ChessBoard> sB = new Stack<ChessBoard>();
+            foreach(move m in legalMoves(board, 1))
+            {
+                ChessBoard tempBoard = board.ShallowCopy();
+                tempBoard.ActionPiece(m.from, m.to);
+                sB.Push(tempBoard);
+                if (depth != 0)
+                {
+                    moveValue = evaluateBoard(tempBoard) + max(tempBoard, depth - 1);
+                }
+                else
+                {
+                    sB.Pop();
+                    return 0;
+                }
+                if(moveValue < worst)
+                {
+                    worst = moveValue;
+                }
+                sB.Pop();
+            }
+            return worst;
+        }
+
+        // max player: computer
+        int max(ChessBoard board, int depth)
+        {
+            int best = -9999;
+            int moveValue = 0;
+            Stack<ChessBoard> sB = new Stack<ChessBoard>();
+            foreach (move m in legalMoves(board, 0))
+            {
+                ChessBoard tempBoard = board.ShallowCopy();
+                tempBoard.ActionPiece(m.from, m.to);
+                sB.Push(tempBoard);
+                if (depth != 0)
+                {
+                    moveValue = evaluateBoard(tempBoard) + max(tempBoard, depth - 1);
+                }
+                else
+                {
+                    sB.Pop();
+                    return 0;
+                }
+                if (moveValue > best)
+                {
+                    best = moveValue;
+                }
+                sB.Pop();
+            }
+            return best;
+        }
+
+        // best move for computer
+        move bestMove(ChessBoard board, int depth)
+        {
+            List<move> bestMoves = new List<move>();
+            int max = -9999;
+            int moveValue = 0;
+            Stack<ChessBoard> sB = new Stack<ChessBoard>();
+            foreach(move m in legalMoves(board, 0))
+            {
+                ChessBoard tempBoard = board.ShallowCopy();
+                tempBoard.ActionPiece(m.from, m.to);
+                sB.Push(tempBoard);
+                moveValue = min(tempBoard, 2) + evaluateBoard(tempBoard);
+                if(moveValue == max)
+                {
+                    bestMoves.Add(m);
+                }
+                else if(moveValue>max)
+                {
+                    bestMoves.Clear();
+                    bestMoves.Add(m);
+                    max = moveValue;
+                }
+                sB.Pop();
+            }
+            Random r = new Random();
+            return bestMoves[(int)r.Next(0, bestMoves.Count()-1)];
         }
     }
 }

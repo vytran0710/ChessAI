@@ -18,6 +18,13 @@ namespace Chess
             SetupBoard();
         }
 
+        public ChessBoard ShallowCopy()
+        {
+            ChessBoard tempBoard = (ChessBoard)this.MemberwiseClone();
+            tempBoard.boardArray = this.boardArray.Clone() as ChessPiece[, ];
+            return tempBoard;
+        }
+
         public int GetLength(int l)
         {
             return boardArray.GetLength(l);
