@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
 using System.Diagnostics;
-
+using System.IO;
 namespace FormClient
 {
     public partial class Form1 : Form
@@ -18,7 +18,8 @@ namespace FormClient
         ChessBoard chessBoard = new ChessBoard();
         Chess.Point selectedPiece = new Chess.Point();
         int selectedPlayer = -1;
-        int depth = 3;
+        int depth = 2;
+        string projectPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "Resources");
 
         public Form1()
         {
@@ -107,13 +108,14 @@ namespace FormClient
                     {
                         ChessPiece chessPiece = board[x, y];
                         button.Tag = chessPiece;
-                        button.Text = chessPiece.ToString().Replace("Chess.", "");
-                        if (chessPiece.Player == 1) button.ForeColor = Color.White;
-                        else button.ForeColor = Color.Black;
+                        //button.Text = chessPiece.ToString().Replace("Chess.", "");
+                        if (chessPiece.Player == 1) button.Image = System.Drawing.Image.FromFile(projectPath + @"\" + chessPiece.ToString().Replace("Chess.", "") + "W.png");
+                        else button.Image = System.Drawing.Image.FromFile(projectPath + @"\" + chessPiece.ToString().Replace("Chess.", "") + "B.png");
                     }
                     else
                     {
-                        button.Text = "";
+                        //button.Text = "";
+                        button.Image = null;
                         button.Tag = null;
                     }
                     this.coordinates.SetToolTip(button, String.Format("({0}, {1})", x, y));
