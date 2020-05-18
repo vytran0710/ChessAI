@@ -18,7 +18,7 @@ namespace FormClient
         ChessBoard chessBoard = new ChessBoard();
         Chess.Point selectedPiece = new Chess.Point();
         int selectedPlayer = -1;
-        int depth = 2;
+        int depth = 2; //depth of the minimax
         string projectPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "Resources");
 
         public Form1()
@@ -135,6 +135,7 @@ namespace FormClient
             chessBoard.ActionPiece(temp.from, temp.to);
         }
 
+        //get a list of legal moves for all of pieces of a certain player
         private List<move> legalMoves(ChessBoard board, int playerTurn)
         {
             List<move> legalMoves = new List<move>();
@@ -164,6 +165,7 @@ namespace FormClient
             return legalMoves;
         }
 
+        //evaluate board to calculate moves
         private int evaluateBoard(ChessBoard board)
         {
             int totalEvaluation = 0;
@@ -308,9 +310,9 @@ namespace FormClient
                     max = moveValue;
                 }
             }
-            Random r = new Random();
             if (bestMoves == null)
                 return new move(new Chess.Point(-1, -1), new Chess.Point(0, 0));
+            Random r = new Random();
             return bestMoves[(int)r.Next(0, bestMoves.Count()-1)];
         }
     }
