@@ -129,7 +129,7 @@ namespace Chess
                         // TODO: Validate that the king won't move through check
                     }
                     // TODO: Validate that king isn't currently in check
-                    missedCondition = missedCondition || KingInCheck(movingPeice.Player);
+                    //missedCondition = missedCondition || KingInCheck(movingPeice.Player);
                     if (!missedCondition) 
                         AddMove(availableActions, new Point(x, y), new Point(x - 2, y), ignoreCheck);
                 }
@@ -143,7 +143,7 @@ namespace Chess
                         // TODO: Validate that the king won't move through check
                     }
                     // TODO: Validate that king isn't currently in check
-                    missedCondition = missedCondition || KingInCheck(movingPeice.Player);
+                    //missedCondition = missedCondition || KingInCheck(movingPeice.Player);
                     if (!missedCondition) 
                         AddMove(availableActions, new Point(x, y), new Point(x + 2, y), ignoreCheck);
                 }
@@ -201,7 +201,7 @@ namespace Chess
                 ChessPiece movingPiece = boardArray[fromPoint.x, fromPoint.y];
                 ChessPiece[,] boardArrayBackup = (ChessPiece[,])boardArray.Clone();
                 ActionPiece(fromPoint, toPoint, true);
-                //kingInCheck = KingInCheck(movingPiece.Player);
+                kingInCheck = KingInCheck(movingPiece.Player);
                 boardArray = boardArrayBackup;
             }
 

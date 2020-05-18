@@ -18,6 +18,7 @@ namespace FormClient
         ChessBoard chessBoard = new ChessBoard();
         Chess.Point selectedPiece = new Chess.Point();
         int selectedPlayer = -1;
+        int depth = 3;
 
         public Form1()
         {
@@ -59,7 +60,7 @@ namespace FormClient
                 {
                     if (chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1))
                     {
-                        AI(3);
+                        AI(depth);
                     }
                     selectedPlayer = -1;
                     DrawPieces(chessBoard);
@@ -75,7 +76,7 @@ namespace FormClient
                 if(chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1))
                 {
                     selectedPlayer = -1;
-                    AI(3);
+                    AI(depth);
                     DrawPieces(chessBoard);
                 }
             }
@@ -124,6 +125,11 @@ namespace FormClient
         private void AI(int depth)
         {
             move temp = bestMove(chessBoard, depth);
+            if(temp.from.x==-1)
+            {
+                MessageBox.Show("END");
+                return;
+            }
             chessBoard.ActionPiece(temp.from, temp.to);
         }
 
@@ -247,14 +253,7 @@ namespace FormClient
             {
                 ChessBoard tempBoard = new ChessBoard(board);
                 tempBoard.ActionPiece(m.from, m.to, true);
-                if (depth != 0)
-                {
-                    moveValue = evaluateBoard(tempBoard) + max(tempBoard, depth - 1);
-                }
-                else
-                {
-                    return 0;
-                }
+                moveValue = evaluateBoard(tempBoard) + max(tempBoard, depth - 1);
                 if(moveValue < worst)
                 {
                     worst = moveValue;
@@ -276,14 +275,7 @@ namespace FormClient
             {
                 ChessBoard tempBoard = new ChessBoard(board);
                 tempBoard.ActionPiece(m.from, m.to, true);
-                if (depth != 0)
-                {
-                    moveValue = evaluateBoard(tempBoard) + min(tempBoard, depth - 1);
-                }
-                else
-                {
-                    return 0;
-                }
+                moveValue = evaluateBoard(tempBoard) + min(tempBoard, depth - 1);
                 if (moveValue > best)
                 {
                     best = moveValue;
@@ -315,6 +307,8 @@ namespace FormClient
                 }
             }
             Random r = new Random();
+            if (bestMoves == null)
+                return new move(new Chess.Point(-1, -1), new Chess.Point(0, 0));
             return bestMoves[(int)r.Next(0, bestMoves.Count()-1)];
         }
     }
