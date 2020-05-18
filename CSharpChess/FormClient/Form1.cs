@@ -61,11 +61,10 @@ namespace FormClient
                 {
                     if (chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1))
                     {
-                        DrawPieces(chessBoard);
                         AI(depth);
+                        DrawPieces(chessBoard);
                     }
                     selectedPlayer = -1;
-                    DrawPieces(chessBoard);
                 }
                 return;
             }
@@ -77,7 +76,6 @@ namespace FormClient
             {
                 if(chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1))
                 {
-                    DrawPieces(chessBoard);
                     selectedPlayer = -1;
                     AI(depth);
                     DrawPieces(chessBoard);
@@ -164,10 +162,15 @@ namespace FormClient
                     {
                         if(board[x, y].Player == playerTurn)
                         {
-                            Parallel.ForEach(board.PieceActions(x, y), (point) =>
+                            foreach(Chess.Point point in board.PieceActions(x, y))
                             {
                                 legalMoves.Add(new move(new Chess.Point(x, y), point));
-                            });
+                            }
+
+                            //Parallel.ForEach(board.PieceActions(x, y), (point) =>
+                            //{
+                            //    legalMoves.Add(new move(new Chess.Point(x, y), point));
+                            //});
                         }
                     }
                 }
