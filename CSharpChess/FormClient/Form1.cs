@@ -18,7 +18,7 @@ namespace FormClient
         ChessBoard chessBoard = new ChessBoard();
         Chess.Point selectedPiece = new Chess.Point();
         int selectedPlayer = -1;
-        int depth = 2; //depth of the minimax
+        int depth = 3; //depth of the minimax
         string projectPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "Resources");
 
         public Form1()
@@ -61,6 +61,7 @@ namespace FormClient
                 {
                     if (chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1))
                     {
+                        DrawPieces(chessBoard);
                         AI(depth);
                     }
                     selectedPlayer = -1;
@@ -76,6 +77,7 @@ namespace FormClient
             {
                 if(chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1))
                 {
+                    DrawPieces(chessBoard);
                     selectedPlayer = -1;
                     AI(depth);
                     DrawPieces(chessBoard);
@@ -94,6 +96,16 @@ namespace FormClient
                 }
                 Console.WriteLine();
             }
+
+            /*
+            if(chessPiece!=null && chessPiece.Player==0)
+            {
+                foreach(Chess.Point point in chessBoard.PieceActions(a.Column - 1, a.Row - 1))
+                {
+                    MessageBox.Show(point.ToString());
+                }
+            }
+            */
         }
 
         private void DrawPieces(ChessBoard board)
@@ -148,21 +160,14 @@ namespace FormClient
             {
                 for (int y = 0; y < boardLayoutPanel.RowCount-1; y++)
                 {
-                    if(board[x, y] != null && board[x, y].Player == playerTurn)
+                    if(board[x, y] != null)
                     {
-                        if(playerTurn == 0)
+                        if(board[x, y].Player == playerTurn)
                         {
-                            foreach (Chess.Point point in board.PieceActions(x, y))
+                            Parallel.ForEach(board.PieceActions(x, y), (point) =>
                             {
                                 legalMoves.Add(new move(new Chess.Point(x, y), point));
-                            }
-                        }
-                        else
-                        {
-                            foreach (Chess.Point point in board.PieceActions(x, y))
-                            {
-                                legalMoves.Add(new move(new Chess.Point(x, y), point));
-                            }
+                            });
                         }
                     }
                 }
