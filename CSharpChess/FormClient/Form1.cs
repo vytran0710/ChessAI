@@ -129,10 +129,15 @@ namespace FormClient
             move temp = bestMove(chessBoard, depth);
             if(temp.from.x==-1)
             {
-                MessageBox.Show("END");
+                MessageBox.Show("White wins.");
                 return;
             }
             chessBoard.ActionPiece(temp.from, temp.to);
+            if (legalMoves(chessBoard, 1).Count() == 0)
+            {
+                MessageBox.Show("Black wins.");
+                return;
+            }
         }
 
         //get a list of legal moves for all of pieces of a certain player
@@ -247,7 +252,7 @@ namespace FormClient
         //min player: human player
         int min(ChessBoard board, int depth)
         {
-            if(depth==0)
+            if (depth == 0 || legalMoves(board, 0).Count() == 0)
             {
                 return 0;
             }    
@@ -269,7 +274,7 @@ namespace FormClient
         //max player: computer
         int max(ChessBoard board, int depth)
         {
-            if (depth == 0)
+            if (depth == 0 || legalMoves(board, 0).Count() == 0)
             {
                 return 0;
             }
@@ -310,7 +315,7 @@ namespace FormClient
                     max = moveValue;
                 }
             }
-            if (bestMoves == null)
+            if (bestMoves.Count() == 0)
                 return new move(new Chess.Point(-1, -1), new Chess.Point(0, 0));
             Random r = new Random();
             return bestMoves[(int)r.Next(0, bestMoves.Count()-1)];
