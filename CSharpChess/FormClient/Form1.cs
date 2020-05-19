@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using System.Collections;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
+
 namespace FormClient
 {
     public partial class Form1 : Form
@@ -61,7 +63,10 @@ namespace FormClient
                 {
                     if (chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1))
                     {
-                        AI(depth);
+                        DrawPieces(chessBoard);
+                        Thread T = new Thread(() => AI(depth));
+                        T.Start();
+                        T.Join();
                         DrawPieces(chessBoard);
                     }
                     selectedPlayer = -1;
@@ -77,7 +82,10 @@ namespace FormClient
                 if(chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1))
                 {
                     selectedPlayer = -1;
-                    AI(depth);
+                    DrawPieces(chessBoard);
+                    Thread T = new Thread(() => AI(depth));
+                    T.Start();
+                    T.Join();
                     DrawPieces(chessBoard);
                 }
             }
@@ -208,7 +216,7 @@ namespace FormClient
                                 totalEvaluation -= 9;
                                 break;
                             case "Chess.King":
-                                totalEvaluation -= 90;
+                                totalEvaluation -= 9;
                                 break;
                             default:
                                 break;
@@ -234,7 +242,7 @@ namespace FormClient
                                 totalEvaluation += 9;
                                 break;
                             case "Chess.King":
-                                totalEvaluation += 90;
+                                totalEvaluation += 9;
                                 break;
                             default:
                                 break;
@@ -256,9 +264,9 @@ namespace FormClient
                 this.to = to;
             }
         }
-
+        /*
         //min player: human player
-        int min(ChessBoard board, int depth)
+        int minVal(ChessBoard board, int depth)
         {
             if (depth == 0 || legalMoves(board, 0).Count() == 0)
             {
@@ -270,7 +278,7 @@ namespace FormClient
             {
                 ChessBoard tempBoard = new ChessBoard(board);
                 tempBoard.ActionPiece(m.from, m.to, true);
-                moveValue = evaluateBoard(tempBoard) + max(tempBoard, depth - 1);
+                moveValue = evaluateBoard(tempBoard) + maxVal(tempBoard, depth - 1);
                 if(moveValue < worst)
                 {
                     worst = moveValue;
@@ -280,7 +288,7 @@ namespace FormClient
         }
 
         //max player: computer
-        int max(ChessBoard board, int depth)
+        int maxVal(ChessBoard board, int depth)
         {
             if (depth == 0 || legalMoves(board, 0).Count() == 0)
             {
@@ -292,7 +300,7 @@ namespace FormClient
             {
                 ChessBoard tempBoard = new ChessBoard(board);
                 tempBoard.ActionPiece(m.from, m.to, true);
-                moveValue = evaluateBoard(tempBoard) + min(tempBoard, depth - 1);
+                moveValue = evaluateBoard(tempBoard) + minVal(tempBoard, depth - 1);
                 if (moveValue > best)
                 {
                     best = moveValue;
@@ -300,6 +308,7 @@ namespace FormClient
             }
             return best;
         }
+        */
 
         //best move for computer
         move bestMove(ChessBoard board, int depth)
@@ -311,7 +320,7 @@ namespace FormClient
             {
                 ChessBoard tempBoard = new ChessBoard(board);
                 tempBoard.ActionPiece(m.from, m.to, true);
-                moveValue = min(tempBoard, depth) + evaluateBoard(tempBoard);
+                moveValue = Minimax(tempBoard, depth, 1, -2147483648, 2147483647) + evaluateBoard(tempBoard);
                 if(moveValue == max)
                 {
                     bestMoves.Add(m);
@@ -327,6 +336,67 @@ namespace FormClient
                 return new move(new Chess.Point(-1, -1), new Chess.Point(0, 0));
             Random r = new Random();
             return bestMoves[(int)r.Next(0, bestMoves.Count()-1)];
+        }
+
+        //alpha-beta pruning
+        int Minimax(ChessBoard board, int depth, int player, int alpha, int beta)
+        {
+            if(depth == 0)
+            {
+                return 0;
+            }
+            if (player == 0)
+            {
+                int bestVal = -2147483648;
+                foreach (move m in legalMoves(board, 0))
+                {
+                    ChessBoard tempBoard = new ChessBoard(board);
+                    tempBoard.ActionPiece(m.from, m.to, true);
+                    int value = evaluateBoard(tempBoard) + Minimax(board, depth - 1, 1, alpha, beta);
+                    bestVal = max(bestVal, value);
+                    alpha = max(alpha, bestVal);
+                    if (beta <= alpha)
+                        break;
+                }
+                return bestVal;
+            }
+            else
+            {
+                int bestVal = 2147483647;
+                foreach (move m in legalMoves(board, 1))
+                {
+                    ChessBoard tempBoard = new ChessBoard(board);
+                    tempBoard.ActionPiece(m.from, m.to, true);
+                    int value = evaluateBoard(tempBoard) + Minimax(board, depth - 1, 0, alpha, beta);
+                    bestVal = min(bestVal, value);
+                    beta = min(beta, bestVal);
+                    if (beta <= alpha)
+                        break;
+                }
+                return bestVal;
+            }
+        }
+        int max(int a, int b)
+        {
+            if(a > b)
+            {
+                return a;
+            }
+            else
+            {
+                return b;
+            }
+        }
+        int min(int a, int b)
+        {
+            if (a < b)
+            {
+                return a;
+            }
+            else
+            {
+                return b;
+            }
         }
     }
 }
