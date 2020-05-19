@@ -116,9 +116,9 @@ namespace FormClient
 
         private void DrawPieces(ChessBoard board)
         {
-            for (int x = 0; x < board.GetLength(0); x++)
+            for (int x = 0; x < 8; x++)
             {
-                for (int y = 0; y < board.GetLength(1); y++)
+                for (int y = 0; y < 8; y++)
                 {
                     Button button = (Button)boardLayoutPanel.GetControlFromPosition(x + 1, y + 1);
                     button.FlatStyle = FlatStyle.Flat;
@@ -162,9 +162,9 @@ namespace FormClient
         private List<move> legalMoves(ChessBoard board, int playerTurn)
         {
             List<move> legalMoves = new List<move>();
-            for (int x = 0; x < boardLayoutPanel.ColumnCount-1; x++)
+            for (int x = 0; x < 8; x++)
             {
-                for (int y = 0; y < boardLayoutPanel.RowCount-1; y++)
+                for (int y = 0; y < 8; y++)
                 {
                     if(board[x, y] != null)
                     {
@@ -190,9 +190,9 @@ namespace FormClient
         private int evaluateBoard(ChessBoard board)
         {
             int totalEvaluation = 0;
-            for (int x = 0; x < board.GetLength(0); x++)
+            for (int x = 0; x < 8; x++)
             {
-                for (int y = 0; y < board.GetLength(1); y++)
+                for (int y = 0; y < 8; y++)
                 {
                     if (board[x, y] == null)
                         continue;
@@ -341,7 +341,7 @@ namespace FormClient
         //alpha-beta pruning
         int Minimax(ChessBoard board, int depth, int player, int alpha, int beta)
         {
-            if(depth == 0)
+            if(depth < 0)
             {
                 return 0;
             }
@@ -352,8 +352,7 @@ namespace FormClient
                 {
                     ChessBoard tempBoard = new ChessBoard(board);
                     tempBoard.ActionPiece(m.from, m.to, true);
-                    int value = evaluateBoard(tempBoard) + Minimax(board, depth - 1, 1, alpha, beta);
-                    bestVal = max(bestVal, value);
+                    bestVal = max(bestVal, evaluateBoard(tempBoard) + Minimax(tempBoard, depth - 1, 1, alpha, beta));
                     alpha = max(alpha, bestVal);
                     if (beta <= alpha)
                         break;
@@ -367,8 +366,7 @@ namespace FormClient
                 {
                     ChessBoard tempBoard = new ChessBoard(board);
                     tempBoard.ActionPiece(m.from, m.to, true);
-                    int value = evaluateBoard(tempBoard) + Minimax(board, depth - 1, 0, alpha, beta);
-                    bestVal = min(bestVal, value);
+                    bestVal = min(bestVal, evaluateBoard(tempBoard) + Minimax(tempBoard, depth - 1, 0, alpha, beta));
                     beta = min(beta, bestVal);
                     if (beta <= alpha)
                         break;
