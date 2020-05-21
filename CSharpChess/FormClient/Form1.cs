@@ -64,10 +64,8 @@ namespace FormClient
                     if (chessBoard.ActionPiece(selectedPiece.x, selectedPiece.y, a.Column - 1, a.Row - 1))
                     {
                         DrawPieces(chessBoard);
-                        Thread T = new Thread(() => AI(depth));
-                        T.Start();
-                        T.Join();
-                        DrawPieces(chessBoard);
+                        this.boardLayoutPanel.Enabled = false;
+                        StartTask(depth);
                     }
                     selectedPlayer = -1;
                 }
@@ -83,10 +81,8 @@ namespace FormClient
                 {
                     selectedPlayer = -1;
                     DrawPieces(chessBoard);
-                    Thread T = new Thread(() => AI(depth));
-                    T.Start();
-                    T.Join();
-                    DrawPieces(chessBoard);
+                    this.boardLayoutPanel.Enabled = false;
+                    StartTask(depth);
                 }
             }
             else if (chessPiece.Player == 1)
@@ -139,6 +135,13 @@ namespace FormClient
                     this.coordinates.SetToolTip(button, String.Format("({0}, {1})", x, y));
                 }
             }
+        }
+
+        private async void StartTask(int depth)
+        {
+            await Task.Run(() => AI(depth));
+            DrawPieces(chessBoard);
+            this.boardLayoutPanel.Enabled = true;
         }
 
         //AI player
