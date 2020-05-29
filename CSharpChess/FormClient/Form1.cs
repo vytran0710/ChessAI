@@ -17,6 +17,8 @@ namespace FormClient
 {
     public partial class Form1 : Form
     {
+        Stack<ChessBoard> leftList;
+        Queue<ChessBoard> RightList;
         ChessBoard chessBoard = new ChessBoard();
         Chess.Point selectedPiece = new Chess.Point();
         int selectedPlayer = -1;
@@ -398,6 +400,35 @@ namespace FormClient
             {
                 return b;
             }
+        }
+
+        private void newChessGameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+            Environment.Exit(0);
+        }
+
+        private void easyDepth2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            depth = 2;
+            MessageBox.Show("Difficulty changed to Easy");
+        }
+
+        private void normalDepth3ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            depth = 3;
+            MessageBox.Show("Difficulty changed to Normal");
+        }
+
+        private void hardDepth4ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            depth = 4;
+            MessageBox.Show("Difficulty changed to Hard");
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
