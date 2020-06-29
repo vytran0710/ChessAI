@@ -17,8 +17,6 @@ namespace FormClient
 {
     public partial class Form1 : Form
     {
-        Stack<ChessBoard> leftList;
-        Queue<ChessBoard> RightList;
         ChessBoard chessBoard = new ChessBoard();
         Chess.Point selectedPiece = new Chess.Point();
         int selectedPlayer = -1;
@@ -346,7 +344,7 @@ namespace FormClient
         //alpha-beta pruning
         int Minimax(ChessBoard board, int depth, int player, int alpha, int beta)
         {
-            if(depth < 0)
+            if(depth == 0)
             {
                 return 0;
             }
@@ -424,11 +422,6 @@ namespace FormClient
         {
             depth = 4;
             MessageBox.Show("Difficulty changed to Hard");
-        }
-
-        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

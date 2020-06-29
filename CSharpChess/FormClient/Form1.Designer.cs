@@ -51,14 +51,11 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newChessGameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.actionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.difficultyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.easyDepth2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.normalDepth3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hardDepth4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.boardLayoutPanel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -315,7 +312,6 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
-            this.actionsToolStripMenuItem,
             this.difficultyToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -337,33 +333,6 @@
             this.newChessGameToolStripMenuItem.Size = new System.Drawing.Size(163, 22);
             this.newChessGameToolStripMenuItem.Text = "New chess game";
             this.newChessGameToolStripMenuItem.Click += new System.EventHandler(this.newChessGameToolStripMenuItem_Click);
-            // 
-            // actionsToolStripMenuItem
-            // 
-            this.actionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.undoToolStripMenuItem,
-            this.redoToolStripMenuItem});
-            this.actionsToolStripMenuItem.Name = "actionsToolStripMenuItem";
-            this.actionsToolStripMenuItem.Size = new System.Drawing.Size(59, 20);
-            this.actionsToolStripMenuItem.Text = "Actions";
-            // 
-            // undoToolStripMenuItem
-            // 
-            this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.undoToolStripMenuItem.Text = "Undo";
-            this.undoToolStripMenuItem.Click += new System.EventHandler(this.undoToolStripMenuItem_Click);
-            // 
-            // redoToolStripMenuItem
-            // 
-            this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(103, 22);
-            this.redoToolStripMenuItem.Text = "Redo";
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // difficultyToolStripMenuItem
             // 
@@ -396,6 +365,11 @@
             this.hardDepth4ToolStripMenuItem.Text = "Hard (Depth = 4)";
             this.hardDepth4ToolStripMenuItem.Click += new System.EventHandler(this.hardDepth4ToolStripMenuItem_Click);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -405,7 +379,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Chess AI";
             this.Load += new System.EventHandler(this.Form_Load);
             this.boardLayoutPanel.ResumeLayout(false);
             this.boardLayoutPanel.PerformLayout();
@@ -440,9 +414,6 @@
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newChessGameToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem actionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem difficultyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem easyDepth2ToolStripMenuItem;
