@@ -56,6 +56,7 @@
             this.normalDepth3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hardDepth4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.optionalDepthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.boardLayoutPanel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -339,7 +340,8 @@
             this.difficultyToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.easyDepth2ToolStripMenuItem,
             this.normalDepth3ToolStripMenuItem,
-            this.hardDepth4ToolStripMenuItem});
+            this.hardDepth4ToolStripMenuItem,
+            this.optionalDepthToolStripMenuItem});
             this.difficultyToolStripMenuItem.Name = "difficultyToolStripMenuItem";
             this.difficultyToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.difficultyToolStripMenuItem.Text = "Difficulty";
@@ -369,6 +371,13 @@
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // optionalDepthToolStripMenuItem
+            // 
+            this.optionalDepthToolStripMenuItem.Name = "optionalDepthToolStripMenuItem";
+            this.optionalDepthToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.optionalDepthToolStripMenuItem.Text = "Optional depth";
+            this.optionalDepthToolStripMenuItem.Click += new System.EventHandler(this.optionalDepthToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -419,6 +428,7 @@
         private System.Windows.Forms.ToolStripMenuItem easyDepth2ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem normalDepth3ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hardDepth4ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem optionalDepthToolStripMenuItem;
     }
 }
 

@@ -20,7 +20,7 @@ namespace FormClient
         ChessBoard chessBoard = new ChessBoard();
         Chess.Point selectedPiece = new Chess.Point();
         int selectedPlayer = -1;
-        int depth = 3; //depth of the minimax
+        static public int depth = 3; //depth of the minimax
         string projectPath = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName, "Resources");
 
         public Form1()
@@ -65,6 +65,7 @@ namespace FormClient
                     {
                         DrawPieces(chessBoard);
                         this.boardLayoutPanel.Enabled = false;
+                        this.difficultyToolStripMenuItem.Enabled = false;
                         StartTask(depth);
                     }
                     selectedPlayer = -1;
@@ -82,6 +83,7 @@ namespace FormClient
                     selectedPlayer = -1;
                     DrawPieces(chessBoard);
                     this.boardLayoutPanel.Enabled = false;
+                    difficultyToolStripMenuItem.Enabled = false;
                     StartTask(depth);
                 }
             }
@@ -142,6 +144,7 @@ namespace FormClient
             await Task.Run(() => AI(depth));
             DrawPieces(chessBoard);
             this.boardLayoutPanel.Enabled = true;
+            this.difficultyToolStripMenuItem.Enabled = true;
         }
 
         //AI player
@@ -422,6 +425,12 @@ namespace FormClient
         {
             depth = 4;
             MessageBox.Show("Difficulty changed to Hard");
+        }
+
+        private void optionalDepthToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var m = new Form2();
+            m.ShowDialog();
         }
     }
 }
