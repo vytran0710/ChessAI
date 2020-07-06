@@ -100,16 +100,6 @@ namespace FormClient
                 }
                 Console.WriteLine();
             }
-
-            /*
-            if(chessPiece!=null && chessPiece.Player==0)
-            {
-                foreach(Chess.Point point in chessBoard.PieceActions(a.Column - 1, a.Row - 1))
-                {
-                    MessageBox.Show(point.ToString());
-                }
-            }
-            */
         }
 
         private void DrawPieces(ChessBoard board)
@@ -130,7 +120,6 @@ namespace FormClient
                     }
                     else
                     {
-                        //button.Text = "";
                         button.Image = null;
                         button.Tag = null;
                     }
@@ -180,11 +169,6 @@ namespace FormClient
                             {
                                 legalMoves.Add(new move(new Chess.Point(x, y), point));
                             }
-
-                            //Parallel.ForEach(board.PieceActions(x, y), (point) =>
-                            //{
-                            //    legalMoves.Add(new move(new Chess.Point(x, y), point));
-                            //});
                         }
                     }
                 }
@@ -207,22 +191,22 @@ namespace FormClient
                         switch (board[x, y].ToString())
                         {
                             case "Chess.Pawn":
-                                totalEvaluation -= 1;
+                                totalEvaluation -= 100;
                                 break;
                             case "Chess.Knight":
-                                totalEvaluation -= 3;
+                                totalEvaluation -= 320;
                                 break;
                             case "Chess.Bishop":
-                                totalEvaluation -= 3;
+                                totalEvaluation -= 330;
                                 break;
                             case "Chess.Rook":
-                                totalEvaluation -= 5;
+                                totalEvaluation -= 500;
                                 break;
                             case "Chess.Queen":
-                                totalEvaluation -= 9;
+                                totalEvaluation -= 900;
                                 break;
                             case "Chess.King":
-                                totalEvaluation -= 9;
+                                totalEvaluation -= 20000;
                                 break;
                             default:
                                 break;
@@ -233,22 +217,22 @@ namespace FormClient
                         switch (board[x, y].ToString())
                         {
                             case "Chess.Pawn":
-                                totalEvaluation += 1;
+                                totalEvaluation += 100;
                                 break;
                             case "Chess.Knight":
-                                totalEvaluation += 3;
+                                totalEvaluation += 320;
                                 break;
                             case "Chess.Bishop":
-                                totalEvaluation += 3;
+                                totalEvaluation += 330;
                                 break;
                             case "Chess.Rook":
-                                totalEvaluation += 5;
+                                totalEvaluation += 500;
                                 break;
                             case "Chess.Queen":
-                                totalEvaluation += 9;
+                                totalEvaluation += 900;
                                 break;
                             case "Chess.King":
-                                totalEvaluation += 9;
+                                totalEvaluation += 20000;
                                 break;
                             default:
                                 break;
@@ -270,57 +254,12 @@ namespace FormClient
                 this.to = to;
             }
         }
-        /*
-        //min player: human player
-        int minVal(ChessBoard board, int depth)
-        {
-            if (depth == 0 || legalMoves(board, 0).Count() == 0)
-            {
-                return 0;
-            }    
-            int worst = 9999;
-            int moveValue = 0;
-            foreach(move m in legalMoves(board, 1))
-            {
-                ChessBoard tempBoard = new ChessBoard(board);
-                tempBoard.ActionPiece(m.from, m.to, true);
-                moveValue = evaluateBoard(tempBoard) + maxVal(tempBoard, depth - 1);
-                if(moveValue < worst)
-                {
-                    worst = moveValue;
-                }
-            }
-            return worst;
-        }
-
-        //max player: computer
-        int maxVal(ChessBoard board, int depth)
-        {
-            if (depth == 0 || legalMoves(board, 0).Count() == 0)
-            {
-                return 0;
-            }
-            int best = -9999;
-            int moveValue = 0;
-            foreach (move m in legalMoves(board, 0))
-            {
-                ChessBoard tempBoard = new ChessBoard(board);
-                tempBoard.ActionPiece(m.from, m.to, true);
-                moveValue = evaluateBoard(tempBoard) + minVal(tempBoard, depth - 1);
-                if (moveValue > best)
-                {
-                    best = moveValue;
-                }
-            }
-            return best;
-        }
-        */
 
         //best move for computer
         move bestMove(ChessBoard board, int depth)
         {
             List<move> bestMoves = new List<move>();
-            int max = -9999;
+            int max = -2147483648;
             int moveValue = 0;
             foreach(move m in legalMoves(board, 0))
             {
