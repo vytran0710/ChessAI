@@ -17,6 +17,62 @@ namespace FormClient
 {
     public partial class Form1 : Form
     {
+        int[,] pawnPos = new int[,]
+        {
+            { 0,  0,  0,  0,  0,  0,  0,  0 },
+            { 50, 50, 50, 50, 50, 50, 50, 50 },
+            { 10, 10, 20, 30, 30, 20, 10, 10 },
+            { 5,  5, 10, 25, 25, 10,  5,  5 },
+            { 0,  0,  0, 20, 20,  0,  0,  0 },
+            { 5, -5,-10,  0,  0,-10, -5,  5 },
+            { 5, 10, 10,-20,-20, 10, 10,  5 },
+            { 0,  0,  0,  0,  0,  0,  0,  0 },
+        };
+        int[,] knightPos = new int[,]
+        {
+            { -50,-40,-30,-30,-30,-30,-40,-50 },
+            { -40,-20,  0,  0,  0,  0,-20,-40 },
+            { -30,  0, 10, 15, 15, 10,  0,-30 },
+            { -30,  5, 15, 20, 20, 15,  5,-30 },
+            { -30,  0, 15, 20, 20, 15,  0,-30 },
+            { -30,  5, 10, 15, 15, 10,  5,-30 },
+            { -40,-20,  0,  5,  5,  0,-20,-40 },
+            { -50,-40,-30,-30,-30,-30,-40,-50 },
+        };
+        int[,] bishopPos = new int[,]
+        {
+            { -20,-10,-10,-10,-10,-10,-10,-20 },
+            { -10,  0,  0,  0,  0,  0,  0,-10 },
+            { -10,  0,  5, 10, 10,  5,  0,-10 },
+            { -10,  5,  5, 10, 10,  5,  5,-10 },
+            { -10,  0, 10, 10, 10, 10,  0,-10 },
+            { -10, 10, 10, 10, 10, 10, 10,-10 },
+            { -10,  5,  0,  0,  0,  0,  5,-10 },
+            { -20,-10,-10,-10,-10,-10,-10,-20 },
+        };
+        int[,] rookPos = new int[,]
+        {
+            { 0,  0,  0,  0,  0,  0,  0,  0 },
+            { 5, 10, 10, 10, 10, 10, 10,  5 },
+            { -5,  0,  0,  0,  0,  0,  0, -5 },
+            { -5,  0,  0,  0,  0,  0,  0, -5 },
+            { -5,  0,  0,  0,  0,  0,  0, -5 },
+            { -5,  0,  0,  0,  0,  0,  0, -5 },
+            { -5,  0,  0,  0,  0,  0,  0, -5 },
+            {  0,  0,  0,  5,  5,  0,  0,  0 }
+        };
+        int[,] queenPos = new int[,]
+        {
+            { -20,-10,-10, -5, -5,-10,-10,-20 },
+            { -10,  0,  0,  0,  0,  0,  0,-10 },
+            { -10,  0,  5,  5,  5,  5,  0,-10 },
+            {  -5,  0,  5,  5,  5,  5,  0, -5 },
+            {   0,  0,  5,  5,  5,  5,  0, -5 },
+            { -10,  5,  5,  5,  5,  5,  0,-10 },
+            { -10,  0,  5,  0,  0,  0,  0,-10 },
+            { -20,-10,-10, -5, -5,-10,-10,-20 }
+        };
+
         ChessBoard chessBoard = new ChessBoard();
         Chess.Point selectedPiece = new Chess.Point();
         int selectedPlayer = -1;
@@ -114,7 +170,6 @@ namespace FormClient
                     {
                         ChessPiece chessPiece = board[x, y];
                         button.Tag = chessPiece;
-                        //button.Text = chessPiece.ToString().Replace("Chess.", "");
                         if (chessPiece.Player == 1) button.Image = System.Drawing.Image.FromFile(projectPath + @"\" + chessPiece.ToString().Replace("Chess.", "") + "W.png");
                         else button.Image = System.Drawing.Image.FromFile(projectPath + @"\" + chessPiece.ToString().Replace("Chess.", "") + "B.png");
                     }
@@ -265,7 +320,7 @@ namespace FormClient
             {
                 ChessBoard tempBoard = new ChessBoard(board);
                 tempBoard.ActionPiece(m.from, m.to, true);
-                moveValue = Minimax(tempBoard, depth, 1, -2147483648, 2147483647) + evaluateBoard(tempBoard);
+                moveValue = Minimax(tempBoard, depth - 1, 1, -2147483648, 2147483647) + evaluateBoard(tempBoard);
                 if(moveValue == max)
                 {
                     bestMoves.Add(m);
