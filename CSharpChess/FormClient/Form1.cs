@@ -72,6 +72,28 @@ namespace FormClient
             { -10,  0,  5,  0,  0,  0,  0,-10 },
             { -20,-10,-10, -5, -5,-10,-10,-20 }
         };
+        int[,] kingPosMid = new int[,]
+        {
+            { -30,-40,-40,-50,-50,-40,-40,-30 },
+            { -30,-40,-40,-50,-50,-40,-40,-30 },
+            { -30,-40,-40,-50,-50,-40,-40,-30 },
+            { -30,-40,-40,-50,-50,-40,-40,-30 },
+            { -20,-30,-30,-40,-40,-30,-30,-20 },
+            { -10,-20,-20,-20,-20,-20,-20,-10 },
+            {  20, 20,  0,  0,  0,  0, 20, 20 },
+            {  20, 30, 10,  0,  0, 10, 30, 20 }
+        };
+        int[,] kingPosEnd = new int[,]
+        {
+            { -50,-40,-30,-20,-20,-30,-40,-50 },
+            { -30,-20,-10,  0,  0,-10,-20,-30 },
+            { -30,-10, 20, 30, 30, 20,-10,-30 },
+            { -30,-10, 30, 40, 40, 30,-10,-30 },
+            { -30,-10, 30, 40, 40, 30,-10,-30 },
+            { -30,-10, 20, 30, 30, 20,-10,-30 },
+            { -30,-30,  0,  0,  0,  0,-30,-30 },
+            { -50,-30,-30,-30,-30,-30,-30,-50 }
+        };
 
         ChessBoard chessBoard = new ChessBoard();
         Chess.Point selectedPiece = new Chess.Point();
@@ -232,8 +254,36 @@ namespace FormClient
         }
 
         //evaluate board to calculate moves
+        bool checkEndgame(ChessBoard board)
+        {
+            int count = 0;
+            for (int x = 0; x < 8; x++)
+            {
+                for (int y = 0; y < 8; y++)
+                {
+                    if(board[x, y] != null)
+                    {
+                        ++count;
+                    }
+                }
+            }
+            if (count <= 12)
+                return true;
+            else
+                return false;
+        }
+
         private int evaluateBoard(ChessBoard board)
         {
+            int[,] kingPos;
+            if (checkEndgame(board))
+            {
+                kingPos = kingPosEnd;
+            }
+            else
+            {
+                kingPos = kingPosMid;
+            }
             int totalEvaluation = 0;
             for (int x = 0; x < 8; x++)
             {
@@ -247,6 +297,21 @@ namespace FormClient
                         {
                             case "Chess.Pawn":
                                 totalEvaluation -= (100 + pawnPos[7 - x, 7 - y]);
+                                try
+                                {
+                                    if((board[x - 1, y - 1].Player == 1)&&(board[x, y].ToString() == "Chess.Pawn"))
+                                    {
+                                        totalEvaluation -= 5;
+                                    }
+                                    if ((board[x + 1, y - 1].Player == 1) && (board[x, y].ToString() == "Chess.Pawn"))
+                                    {
+                                        totalEvaluation -= 5;
+                                    }
+                                }
+                                catch
+                                {
+
+                                }
                                 break;
                             case "Chess.Knight":
                                 totalEvaluation -= (320 + knightPos[7 - x, 7 - y]);
@@ -261,7 +326,7 @@ namespace FormClient
                                 totalEvaluation -= (900 + queenPos[7 - x, 7 - y]);
                                 break;
                             case "Chess.King":
-                                totalEvaluation -= 20000;
+                                totalEvaluation -= (30300 + kingPos[7 - x, 7 - y]);
                                 break;
                             default:
                                 break;
@@ -273,6 +338,21 @@ namespace FormClient
                         {
                             case "Chess.Pawn":
                                 totalEvaluation += (100 + pawnPos[x, y]) ;
+                                try
+                                {
+                                    if ((board[x - 1, y + 1].Player == 0) && (board[x, y].ToString() == "Chess.Pawn"))
+                                    {
+                                        totalEvaluation += 5;
+                                    }
+                                    if ((board[x + 1, y + 1].Player == 0) && (board[x, y].ToString() == "Chess.Pawn"))
+                                    {
+                                        totalEvaluation += 5;
+                                    }
+                                }
+                                catch
+                                {
+
+                                }
                                 break;
                             case "Chess.Knight":
                                 totalEvaluation += (320 + knightPos[x, y]);
@@ -287,7 +367,7 @@ namespace FormClient
                                 totalEvaluation += (900 + queenPos[x, y]);
                                 break;
                             case "Chess.King":
-                                totalEvaluation += 20000;
+                                totalEvaluation += (30300 + kingPos[x, y]);
                                 break;
                             default:
                                 break;
