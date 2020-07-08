@@ -297,21 +297,6 @@ namespace FormClient
                         {
                             case "Chess.Pawn":
                                 totalEvaluation -= (100 + pawnPos[7 - x, 7 - y]);
-                                try
-                                {
-                                    if((board[x - 1, y - 1].Player == 1)&&(board[x, y].ToString() == "Chess.Pawn"))
-                                    {
-                                        totalEvaluation -= 5;
-                                    }
-                                    if ((board[x + 1, y - 1].Player == 1) && (board[x, y].ToString() == "Chess.Pawn"))
-                                    {
-                                        totalEvaluation -= 5;
-                                    }
-                                }
-                                catch
-                                {
-
-                                }
                                 break;
                             case "Chess.Knight":
                                 totalEvaluation -= (320 + knightPos[7 - x, 7 - y]);
@@ -338,21 +323,6 @@ namespace FormClient
                         {
                             case "Chess.Pawn":
                                 totalEvaluation += (100 + pawnPos[x, y]) ;
-                                try
-                                {
-                                    if ((board[x - 1, y + 1].Player == 0) && (board[x, y].ToString() == "Chess.Pawn"))
-                                    {
-                                        totalEvaluation += 5;
-                                    }
-                                    if ((board[x + 1, y + 1].Player == 0) && (board[x, y].ToString() == "Chess.Pawn"))
-                                    {
-                                        totalEvaluation += 5;
-                                    }
-                                }
-                                catch
-                                {
-
-                                }
                                 break;
                             case "Chess.Knight":
                                 totalEvaluation += (320 + knightPos[x, y]);
