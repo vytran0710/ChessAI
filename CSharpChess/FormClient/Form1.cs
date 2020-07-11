@@ -296,22 +296,22 @@ namespace FormClient
                         switch (board[x, y].ToString())
                         {
                             case "Chess.Pawn":
-                                totalEvaluation -= (100 + pawnPos[7 - x, 7 - y]);
+                                totalEvaluation -= (100 + pawnPos[x, y]);
                                 break;
                             case "Chess.Knight":
-                                totalEvaluation -= (320 + knightPos[7 - x, 7 - y]);
+                                totalEvaluation -= (320 + knightPos[x, y]);
                                 break;
                             case "Chess.Bishop":
-                                totalEvaluation -= (330 + bishopPos[7 - x, 7 - y]);
+                                totalEvaluation -= (330 + bishopPos[x, y]);
                                 break;
                             case "Chess.Rook":
-                                totalEvaluation -= (500 + rookPos[7 - x, 7 - y]);
+                                totalEvaluation -= (500 + rookPos[x, y]);
                                 break;
                             case "Chess.Queen":
-                                totalEvaluation -= (900 + queenPos[7 - x, 7 - y]);
+                                totalEvaluation -= (900 + queenPos[x, y]);
                                 break;
                             case "Chess.King":
-                                totalEvaluation -= (30300 + kingPos[7 - x, 7 - y]);
+                                totalEvaluation -= (30300 + kingPos[x, y]);
                                 break;
                             default:
                                 break;
@@ -322,22 +322,22 @@ namespace FormClient
                         switch (board[x, y].ToString())
                         {
                             case "Chess.Pawn":
-                                totalEvaluation += (100 + pawnPos[x, y]) ;
+                                totalEvaluation += (100 + pawnPos[7 - x, 7 - y]) ;
                                 break;
                             case "Chess.Knight":
-                                totalEvaluation += (320 + knightPos[x, y]);
+                                totalEvaluation += (320 + knightPos[7 - x, 7 - y]);
                                 break;
                             case "Chess.Bishop":
-                                totalEvaluation += (330 + bishopPos[x, y]);
+                                totalEvaluation += (330 + bishopPos[7 - x, 7 - y]);
                                 break;
                             case "Chess.Rook":
-                                totalEvaluation += (500 + rookPos[x, y]);
+                                totalEvaluation += (500 + rookPos[7 - x, 7 - y]);
                                 break;
                             case "Chess.Queen":
-                                totalEvaluation += (900 + queenPos[x, y]);
+                                totalEvaluation += (900 + queenPos[7 - x, 7 - y]);
                                 break;
                             case "Chess.King":
-                                totalEvaluation += (30300 + kingPos[x, y]);
+                                totalEvaluation += (30300 + kingPos[7 - x, 7 - y]);
                                 break;
                             default:
                                 break;
