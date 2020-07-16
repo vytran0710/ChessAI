@@ -95,6 +95,7 @@ namespace FormClient
             { -50,-30,-30,-30,-30,-30,-30,-50 }
         };
 
+        bool evaluationType = false;
         ChessBoard chessBoard = new ChessBoard();
         Chess.Point selectedPiece = new Chess.Point();
         int selectedPlayer = -1;
@@ -275,77 +276,145 @@ namespace FormClient
 
         private int evaluateBoard(ChessBoard board)
         {
-            int[,] kingPos;
-            if (checkEndgame(board))
+            if(evaluationType == false)
             {
-                kingPos = kingPosEnd;
-            }
-            else
-            {
-                kingPos = kingPosMid;
-            }
-            int totalEvaluation = 0;
-            for (int x = 0; x < 8; x++)
-            {
-                for (int y = 0; y < 8; y++)
+                int totalEvaluation = 0;
+                for (int x = 0; x < 8; x++)
                 {
-                    if (board[x, y] == null)
-                        continue;
-                    if(board[x, y].Player==1)
+                    for (int y = 0; y < 8; y++)
                     {
-                        switch (board[x, y].ToString())
+                        if (board[x, y] == null)
+                            continue;
+                        if (board[x, y].Player == 1)
                         {
-                            case "Chess.Pawn":
-                                totalEvaluation -= (100 + pawnPos[x, y]);
-                                break;
-                            case "Chess.Knight":
-                                totalEvaluation -= (320 + knightPos[x, y]);
-                                break;
-                            case "Chess.Bishop":
-                                totalEvaluation -= (330 + bishopPos[x, y]);
-                                break;
-                            case "Chess.Rook":
-                                totalEvaluation -= (500 + rookPos[x, y]);
-                                break;
-                            case "Chess.Queen":
-                                totalEvaluation -= (900 + queenPos[x, y]);
-                                break;
-                            case "Chess.King":
-                                totalEvaluation -= (30300 + kingPos[x, y]);
-                                break;
-                            default:
-                                break;
+                            switch (board[x, y].ToString())
+                            {
+                                case "Chess.Pawn":
+                                    totalEvaluation -= 100;
+                                    break;
+                                case "Chess.Knight":
+                                    totalEvaluation -= 320;
+                                    break;
+                                case "Chess.Bishop":
+                                    totalEvaluation -= 330;
+                                    break;
+                                case "Chess.Rook":
+                                    totalEvaluation -= 500;
+                                    break;
+                                case "Chess.Queen":
+                                    totalEvaluation -= 900;
+                                    break;
+                                case "Chess.King":
+                                    totalEvaluation -= 30300;
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-                    }
-                    else
-                    {
-                        switch (board[x, y].ToString())
+                        else
                         {
-                            case "Chess.Pawn":
-                                totalEvaluation += (100 + pawnPos[7 - x, 7 - y]) ;
-                                break;
-                            case "Chess.Knight":
-                                totalEvaluation += (320 + knightPos[7 - x, 7 - y]);
-                                break;
-                            case "Chess.Bishop":
-                                totalEvaluation += (330 + bishopPos[7 - x, 7 - y]);
-                                break;
-                            case "Chess.Rook":
-                                totalEvaluation += (500 + rookPos[7 - x, 7 - y]);
-                                break;
-                            case "Chess.Queen":
-                                totalEvaluation += (900 + queenPos[7 - x, 7 - y]);
-                                break;
-                            case "Chess.King":
-                                totalEvaluation += (30300 + kingPos[7 - x, 7 - y]);
-                                break;
-                            default:
-                                break;
+                            switch (board[x, y].ToString())
+                            {
+                                case "Chess.Pawn":
+                                    totalEvaluation += 100;
+                                    break;
+                                case "Chess.Knight":
+                                    totalEvaluation += 320;
+                                    break;
+                                case "Chess.Bishop":
+                                    totalEvaluation += 330;
+                                    break;
+                                case "Chess.Rook":
+                                    totalEvaluation += 500;
+                                    break;
+                                case "Chess.Queen":
+                                    totalEvaluation += 900;
+                                    break;
+                                case "Chess.King":
+                                    totalEvaluation += 30300;
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
                 }
+                return totalEvaluation;
             }
-            return totalEvaluation;
+            else
+            {
+                int[,] kingPos;
+                if (checkEndgame(board))
+                {
+                    kingPos = kingPosEnd;
+                }
+                else
+                {
+                    kingPos = kingPosMid;
+                }
+                int totalEvaluation = 0;
+                for (int x = 0; x < 8; x++)
+                {
+                    for (int y = 0; y < 8; y++)
+                    {
+                        if (board[x, y] == null)
+                            continue;
+                        if (board[x, y].Player == 1)
+                        {
+                            switch (board[x, y].ToString())
+                            {
+                                case "Chess.Pawn":
+                                    totalEvaluation -= (100 + pawnPos[x, y]);
+                                    break;
+                                case "Chess.Knight":
+                                    totalEvaluation -= (320 + knightPos[x, y]);
+                                    break;
+                                case "Chess.Bishop":
+                                    totalEvaluation -= (330 + bishopPos[x, y]);
+                                    break;
+                                case "Chess.Rook":
+                                    totalEvaluation -= (500 + rookPos[x, y]);
+                                    break;
+                                case "Chess.Queen":
+                                    totalEvaluation -= (900 + queenPos[x, y]);
+                                    break;
+                                case "Chess.King":
+                                    totalEvaluation -= (30300 + kingPos[x, y]);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        else
+                        {
+                            switch (board[x, y].ToString())
+                            {
+                                case "Chess.Pawn":
+                                    totalEvaluation += (100 + pawnPos[7 - x, 7 - y]);
+                                    break;
+                                case "Chess.Knight":
+                                    totalEvaluation += (320 + knightPos[7 - x, 7 - y]);
+                                    break;
+                                case "Chess.Bishop":
+                                    totalEvaluation += (330 + bishopPos[7 - x, 7 - y]);
+                                    break;
+                                case "Chess.Rook":
+                                    totalEvaluation += (500 + rookPos[7 - x, 7 - y]);
+                                    break;
+                                case "Chess.Queen":
+                                    totalEvaluation += (900 + queenPos[7 - x, 7 - y]);
+                                    break;
+                                case "Chess.King":
+                                    totalEvaluation += (30300 + kingPos[7 - x, 7 - y]);
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                    }
+                }
+                return totalEvaluation;
+            }
         }
 
         //for a list of moves
@@ -475,6 +544,25 @@ namespace FormClient
         {
             var m = new Form2();
             m.ShowDialog();
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void piecesValuesOnlyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            piecesValuesPositioningToolStripMenuItem.Checked = false;
+            piecesValuesOnlyToolStripMenuItem.Checked = true;
+            evaluationType = false;
+        }
+
+        private void piecesValuesPositioningToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            piecesValuesOnlyToolStripMenuItem.Checked = false;
+            piecesValuesPositioningToolStripMenuItem.Checked = true;
+            evaluationType = true;
         }
     }
 }

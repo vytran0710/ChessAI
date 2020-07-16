@@ -55,8 +55,11 @@
             this.easyDepth2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.normalDepth3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.hardDepth4ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.optionalDepthToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.piecesValuesOnlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.piecesValuesPositioningToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.boardLayoutPanel.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -313,7 +316,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
-            this.difficultyToolStripMenuItem});
+            this.difficultyToolStripMenuItem,
+            this.toolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(646, 24);
@@ -349,35 +353,61 @@
             // easyDepth2ToolStripMenuItem
             // 
             this.easyDepth2ToolStripMenuItem.Name = "easyDepth2ToolStripMenuItem";
-            this.easyDepth2ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.easyDepth2ToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.easyDepth2ToolStripMenuItem.Text = "Easy (Depth = 2)";
             this.easyDepth2ToolStripMenuItem.Click += new System.EventHandler(this.easyDepth2ToolStripMenuItem_Click);
             // 
             // normalDepth3ToolStripMenuItem
             // 
             this.normalDepth3ToolStripMenuItem.Name = "normalDepth3ToolStripMenuItem";
-            this.normalDepth3ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.normalDepth3ToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.normalDepth3ToolStripMenuItem.Text = "Normal (Depth = 3)";
             this.normalDepth3ToolStripMenuItem.Click += new System.EventHandler(this.normalDepth3ToolStripMenuItem_Click);
             // 
             // hardDepth4ToolStripMenuItem
             // 
             this.hardDepth4ToolStripMenuItem.Name = "hardDepth4ToolStripMenuItem";
-            this.hardDepth4ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.hardDepth4ToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.hardDepth4ToolStripMenuItem.Text = "Hard (Depth = 4)";
             this.hardDepth4ToolStripMenuItem.Click += new System.EventHandler(this.hardDepth4ToolStripMenuItem_Click);
+            // 
+            // optionalDepthToolStripMenuItem
+            // 
+            this.optionalDepthToolStripMenuItem.Name = "optionalDepthToolStripMenuItem";
+            this.optionalDepthToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.optionalDepthToolStripMenuItem.Text = "Optional depth";
+            this.optionalDepthToolStripMenuItem.Click += new System.EventHandler(this.optionalDepthToolStripMenuItem_Click);
             // 
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
-            // optionalDepthToolStripMenuItem
+            // toolStripMenuItem1
             // 
-            this.optionalDepthToolStripMenuItem.Name = "optionalDepthToolStripMenuItem";
-            this.optionalDepthToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.optionalDepthToolStripMenuItem.Text = "Optional depth";
-            this.optionalDepthToolStripMenuItem.Click += new System.EventHandler(this.optionalDepthToolStripMenuItem_Click);
+            this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.piecesValuesOnlyToolStripMenuItem,
+            this.piecesValuesPositioningToolStripMenuItem});
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(74, 20);
+            this.toolStripMenuItem1.Text = "Evaluation";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // piecesValuesOnlyToolStripMenuItem
+            // 
+            this.piecesValuesOnlyToolStripMenuItem.Checked = true;
+            this.piecesValuesOnlyToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.piecesValuesOnlyToolStripMenuItem.Name = "piecesValuesOnlyToolStripMenuItem";
+            this.piecesValuesOnlyToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.piecesValuesOnlyToolStripMenuItem.Text = "Pieces\' values only";
+            this.piecesValuesOnlyToolStripMenuItem.Click += new System.EventHandler(this.piecesValuesOnlyToolStripMenuItem_Click);
+            // 
+            // piecesValuesPositioningToolStripMenuItem
+            // 
+            this.piecesValuesPositioningToolStripMenuItem.Name = "piecesValuesPositioningToolStripMenuItem";
+            this.piecesValuesPositioningToolStripMenuItem.Size = new System.Drawing.Size(220, 22);
+            this.piecesValuesPositioningToolStripMenuItem.Text = "Pieces\' values + Positioning";
+            this.piecesValuesPositioningToolStripMenuItem.Click += new System.EventHandler(this.piecesValuesPositioningToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -429,6 +459,9 @@
         private System.Windows.Forms.ToolStripMenuItem normalDepth3ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hardDepth4ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionalDepthToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem piecesValuesOnlyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem piecesValuesPositioningToolStripMenuItem;
     }
 }
 
