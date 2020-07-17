@@ -145,6 +145,7 @@ namespace FormClient
                         DrawPieces(chessBoard);
                         this.boardLayoutPanel.Enabled = false;
                         this.difficultyToolStripMenuItem.Enabled = false;
+                        this.toolStripMenuItem1.Enabled = false;
                         StartTask(depth);
                     }
                     selectedPlayer = -1;
@@ -162,7 +163,8 @@ namespace FormClient
                     selectedPlayer = -1;
                     DrawPieces(chessBoard);
                     this.boardLayoutPanel.Enabled = false;
-                    difficultyToolStripMenuItem.Enabled = false;
+                    this.difficultyToolStripMenuItem.Enabled = false;
+                    this.toolStripMenuItem1.Enabled = false;
                     StartTask(depth);
                 }
             }
@@ -212,6 +214,7 @@ namespace FormClient
             DrawPieces(chessBoard);
             this.boardLayoutPanel.Enabled = true;
             this.difficultyToolStripMenuItem.Enabled = true;
+            this.toolStripMenuItem1.Enabled = true;
         }
 
         //AI player
