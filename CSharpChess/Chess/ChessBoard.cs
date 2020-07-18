@@ -134,19 +134,6 @@ namespace Chess
                         AddMove(availableActions, new Point(x, y), new Point(x - 2, y), ignoreCheck);
                 }
                 rookX = COLUMNS - 1;
-                if (boardArray[rookX, y] is Rook && ((Rook)boardArray[rookX, y]).CanCastle)
-                {
-                    bool missedCondition = false;
-                    foreach (int rangeX in Enumerable.Range(x + 1, Math.Abs(rookX - x) - 1))
-                    {
-                        if (boardArray[rangeX, y] != null) missedCondition = true;
-                        // TODO: Validate that the king won't move through check
-                    }
-                    // TODO: Validate that king isn't currently in check
-                    //missedCondition = missedCondition || KingInCheck(movingPeice.Player);
-                    if (!missedCondition) 
-                        AddMove(availableActions, new Point(x, y), new Point(x + 2, y), ignoreCheck);
-                }
             }
 
             if (movingPeice is Pawn)
