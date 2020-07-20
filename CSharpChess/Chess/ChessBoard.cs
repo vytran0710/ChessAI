@@ -254,6 +254,19 @@ namespace Chess
                 ChessPiece movingPeice = boardArray[from.x, from.y];
                 if (movingPeice is Pawn)
                 {
+                    if(to.y == 0 && movingPeice.Player == 1)
+                    {
+                        boardArray[to.x, to.y] = (ChessPiece)Activator.CreateInstance(Type.GetType("Chess.Queen"), new object[] { 1 });
+                        boardArray[from.x, from.y] = null;
+                        return true;
+                    }
+                    if (to.y == 7 && movingPeice.Player == 0)
+                    {
+                        boardArray[to.x, to.y] = (ChessPiece)Activator.CreateInstance(Type.GetType("Chess.Queen"));
+                        boardArray[from.x, from.y] = null;
+                        return true;
+                    }
+
                     Pawn pawn = (Pawn)movingPeice;
                     // If this was a double jump, check enpassant
                     if (Math.Abs(from.y - to.y) == 2)
