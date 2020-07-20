@@ -120,12 +120,20 @@ namespace Chess
             if (movingPeice is King && ((King)movingPeice).CanCastle)
             {
                 int rookX = 0;
-                if (boardArray[rookX, y] is Rook && ((Rook)boardArray[rookX, y]).CanCastle)
+                if (boardArray[rookX, y] is Rook && ((Rook)boardArray[rookX, y]).CanCastle && movingPeice.Player == 1 && !KingInCheck(1))
+                {
+                    AddMove(availableActions, new Point(x, y), new Point(x - 2, y), ignoreCheck);
+                }
+                if (boardArray[rookX, y] is Rook && ((Rook)boardArray[rookX, y]).CanCastle && movingPeice.Player == 0 && !KingInCheck(0))
                 {
                     AddMove(availableActions, new Point(x, y), new Point(x - 2, y), ignoreCheck);
                 }
                 rookX = COLUMNS - 1;
-                if (boardArray[rookX, y] is Rook && ((Rook)boardArray[rookX, y]).CanCastle)
+                if (boardArray[rookX, y] is Rook && ((Rook)boardArray[rookX, y]).CanCastle && movingPeice.Player == 1 && !KingInCheck(1))
+                {
+                    AddMove(availableActions, new Point(x, y), new Point(x + 2, y), ignoreCheck);
+                }
+                if (boardArray[rookX, y] is Rook && ((Rook)boardArray[rookX, y]).CanCastle && movingPeice.Player == 0 && !KingInCheck(0))
                 {
                     AddMove(availableActions, new Point(x, y), new Point(x + 2, y), ignoreCheck);
                 }
